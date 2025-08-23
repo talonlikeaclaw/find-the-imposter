@@ -15,6 +15,6 @@ lint:
   before_script:
     - npm ci --cache .npm --prefer-offline
   script:
-    - npm run lint 
     - echo "🚩 You can fix lint errors by running 'npx prettier --write .' and  'npx eslint --fix .'"
+    - npm run lint 
   allow_failure: false
