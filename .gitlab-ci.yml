@@ -1,0 +1,20 @@
+stages:
+  - test
+
+
+default:
+  image: node:lts-bookworm-slim
+  cache:  # Cache modules in between jobs
+    key: $CI_COMMIT_REF_SLUG
+    paths:
+      - .npm/
+
+lint:
+  stage: test
+  image: node
+  before_script:
+    - npm ci --cache .npm --prefer-offline
+  script:
+    - npm run lint 
+    - npm run prettier -- --check .
+  allow_failure: false

@@ -1,0 +1,8 @@
+*.pdf
+.vscode
+**/node_modules/
+.bash_history
+.viminfo
+.minttyrc
+.ssh/
+**/dist/
