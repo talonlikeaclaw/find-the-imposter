@@ -5,15 +5,7 @@ Author: Talon Dunbar
 
 ## Overview
 
-An interactive game where:
-- Various images of dogs and bears are fetched from public image APIs.
-- Images are displayed for the user in groups of four.
-- The user must attempt to find the imposter amongst the groups of images before the timer runs out.
-- When the user clicks on a non-imposter it fades to indicate to the user it is incorrect.
-- When the user correctly guesses an imposter a green border appears around the image.
-- When the timer runs out the user is told how many imposters they found and mistakes they made.
-- The user can click a "Score" button to see a bar chart graph of the imposters they found and mistakes they made.
-- The "Score" button is always available for the user and the chart dynamically updates during gameplay.
+An silly interactive game where the user must find the imposters amongst groups of images before the timer runs out. When the user selects images they are given feedback indicating if they correctly found the imposter or not. The user's score is tallied dynamically and is displayed in a bar chart for the user to view during/after the game.
 
 ![Example Gameplay](assets/example-01.png)
 
