@@ -7,6 +7,8 @@ Author: Talon Dunbar
 
 An silly interactive game where the user must find the imposters amongst groups of images before the timer runs out. When the user selects images they are given feedback indicating if they correctly found the imposter or not. The user's score is tallied dynamically and is displayed in a bar chart for the user to view during/after the game.
 
+### Example Gameplay
+
 ![Example Gameplay](assets/example-01.png)
 
 ### Stakeholder Requirements
