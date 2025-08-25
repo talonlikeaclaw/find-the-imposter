@@ -1,5 +1,5 @@
 
-# Silly Image Game
+# Find The Imposter Game
 
 Talon Dunbar
 
