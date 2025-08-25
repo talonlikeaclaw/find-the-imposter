@@ -1,5 +1,7 @@
 'use strict';
 
+let correctAnswers = 0;
+let incorrectAnswers = 0;
 function displayChart() {
   // this is a inline eslint setting to ignore the Chart global variable
   /* global Chart */
