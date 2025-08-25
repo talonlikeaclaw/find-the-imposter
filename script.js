@@ -11,6 +11,32 @@ function createImageBatch() {
 
   return imageBatch;
 }
+
+function addImageBatchImages() {
+  const imageBatch = createImageBatch();
+
+  const firstDogImage = document.createElement('img');
+  firstDogImage.src = 'assets/puppy-01.jpg';
+  firstDogImage.classList.add('batch-item');
+
+  const secondDogImage = document.createElement('img');
+  secondDogImage.src = 'assets/puppy-02.jpg';
+  secondDogImage.classList.add('batch-item');
+
+  const thirdDogImage = document.createElement('img');
+  thirdDogImage.src = 'assets/puppy-03.jpg';
+  thirdDogImage.classList.add('batch-item');
+
+  const imposterBearImage = document.createElement('img');
+  imposterBearImage.src = 'assets/bear-01.jpg';
+  imposterBearImage.classList.add('batch-item');
+
+  imageBatch.appendChild(firstDogImage);
+  imageBatch.appendChild(secondDogImage);
+  imageBatch.appendChild(thirdDogImage);
+  imageBatch.appendChild(imposterBearImage);
+}
+
 function displayChart() {
   // this is a inline eslint setting to ignore the Chart global variable
   /* global Chart */
