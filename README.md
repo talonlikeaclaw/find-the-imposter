@@ -1,8 +1,7 @@
 
 # Silly Image Game
 
-
-Your name
+Talon Dunbar
 
 ## Overview
 
