@@ -1,7 +1,7 @@
 
 # Find The Imposter Game
 
-Talon Dunbar
+Author: Talon Dunbar
 
 ## Overview
 
