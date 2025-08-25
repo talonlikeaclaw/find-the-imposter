@@ -2,6 +2,15 @@
 
 let correctAnswers = 0;
 let incorrectAnswers = 0;
+function createImageBatch() {
+  const imageSection = document.querySelector('#images');
+  const imageBatch = document.createElement('section');
+
+  imageBatch.classList.add('image-batch');
+  imageSection.appendChild(imageBatch);
+
+  return imageBatch;
+}
 function displayChart() {
   // this is a inline eslint setting to ignore the Chart global variable
   /* global Chart */
