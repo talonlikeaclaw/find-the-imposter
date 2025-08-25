@@ -2,6 +2,13 @@
 
 let correctAnswers = 0;
 let incorrectAnswers = 0;
+
+document.addEventListener('DOMContentLoaded', init);
+
+function init() {
+  addImageBatchImages();
+}
+
 function createImageBatch() {
   const imageSection = document.querySelector('#images');
   const imageBatch = document.createElement('section');
