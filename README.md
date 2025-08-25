@@ -35,7 +35,25 @@ An silly interactive game where the user must find the imposters amongst groups 
 
 ## Setup
 
-What does someone have to do to set up and run the app locally after they clone the repo?
+### Prerequsites
+
+- Git
+- Node.js
+- A modern web browser
+- VS Code + Live Server Extension
+
+### Steps
+
+1. Clone the repository:
+    - `git clone https://gitlab.com/dawson-cst-cohort-2026/520/section3/TalonDunbar/Assignment1.git`
+2. Move into the directory
+    - `cd Assignment1`
+3. Run `npm install` to install the node packages.
+4. Run the Live Server:
+    1. Open VS Code.
+    2. Right click on `index.html` and click "Open With Live Server".
+    3. Access the game at `http://127.0.0.1:5500/index.html` by default.
+
 What if they want to check code style at the command-line?
 
 ## Credits
