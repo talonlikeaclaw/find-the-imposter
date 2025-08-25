@@ -1,7 +1,6 @@
 
-👉 Assignment spec is at <https://dawsoncollege.gitlab.io/520JS/520-Web/assessment/01_a1_event_loop_promise_fetch/01_a1_spec.html>
+# Silly Image Game
 
-# Descriptive title of your app
 
 Your name
 
