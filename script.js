@@ -14,6 +14,7 @@ function createImageBatch() {
   const imageBatch = document.createElement('section');
 
   imageBatch.classList.add('image-batch');
+  imageBatch.addEventListener('click', handleBatchClick);
   imageSection.appendChild(imageBatch);
 
   return imageBatch;
@@ -50,6 +51,28 @@ function addImageBatchImages() {
   imageBatch.appendChild(secondDogImage);
   imageBatch.appendChild(thirdDogImage);
   imageBatch.appendChild(imposterBearImage);
+}
+
+
+
+function handleBatchClick(event) {
+  // Correctly guessed imposter
+  if (event.target.classList.contains('imposter')) {
+    event.target.style.borderColor = 'green';
+    event.target.style.borderWidth = '5';
+    if (event.target.classList.contains('notClicked')) {
+      correctAnswers += 1;
+      event.target.classList.remove('notClicked');
+    }
+  }
+  // Incorrectly guessed non imposter
+  if (event.target.classList.contains('nonimposter')) {
+    event.target.style.opacity = 0.6;
+    if (event.target.classList.contains('notClicked')) {
+      incorrectAnswers += 1;
+      event.target.classList.remove('notClicked');
+    }
+  }
 }
 
 function displayChart() {
