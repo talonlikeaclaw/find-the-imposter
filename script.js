@@ -25,18 +25,26 @@ function addImageBatchImages() {
   const firstDogImage = document.createElement('img');
   firstDogImage.src = 'assets/puppy-01.jpg';
   firstDogImage.classList.add('batch-item');
+  firstDogImage.classList.add('nonimposter');
+  firstDogImage.classList.add('notClicked');
 
   const secondDogImage = document.createElement('img');
   secondDogImage.src = 'assets/puppy-02.jpg';
   secondDogImage.classList.add('batch-item');
+  secondDogImage.classList.add('nonimposter');
+  secondDogImage.classList.add('notClicked');
 
   const thirdDogImage = document.createElement('img');
   thirdDogImage.src = 'assets/puppy-03.jpg';
   thirdDogImage.classList.add('batch-item');
+  thirdDogImage.classList.add('nonimposter');
+  thirdDogImage.classList.add('notClicked');
 
   const imposterBearImage = document.createElement('img');
   imposterBearImage.src = 'assets/bear-01.jpg';
   imposterBearImage.classList.add('batch-item');
+  imposterBearImage.classList.add('imposter');
+  imposterBearImage.classList.add('notClicked');
 
   imageBatch.appendChild(firstDogImage);
   imageBatch.appendChild(secondDogImage);
