@@ -75,6 +75,22 @@ function handleBatchClick(event) {
   }
 }
 
+function fetchImageUrl(url) {
+  return fetch(url)
+    .then(resp => {
+      if (!resp.ok) {
+        throw new Error('API error');
+      }
+      return resp.json();
+    })
+    .then(data => {
+      return data.message;
+    })
+    .catch(error => {
+      return error;
+    });
+}
+
 function displayChart() {
   // this is a inline eslint setting to ignore the Chart global variable
   /* global Chart */
