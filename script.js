@@ -131,8 +131,7 @@ function buildImageBatchesWithDelay(times) {
 function handleBatchClick(event) {
   // Correctly guessed imposter
   if (event.target.classList.contains('imposter')) {
-    event.target.style.borderColor = 'green';
-    event.target.style.borderWidth = '5';
+    event.target.style.border = '5px solid green';
     if (event.target.classList.contains('notClicked')) {
       correctAnswers += 1;
       event.target.classList.remove('notClicked');
