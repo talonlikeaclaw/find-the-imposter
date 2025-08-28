@@ -21,9 +21,15 @@ function init() {
 function createImageBatch() {
   const imageSection = document.querySelector('#images');
   const imageBatch = document.createElement('section');
+  // Random hue between 100-256
+  const randRed = Math.floor(Math.random() * 156) + 100;
+  const randGreen = Math.floor(Math.random() * 156) + 100;
+  const randBlue = Math.floor(Math.random() * 156) + 100;
 
   imageBatch.classList.add('image-batch');
   imageBatch.addEventListener('click', handleBatchClick);
+
+  imageBatch.style.background = `rgb(${randRed} ${randGreen} ${randBlue} / 50%)`;
   imageSection.appendChild(imageBatch);
 
   return imageBatch;
