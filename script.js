@@ -1,6 +1,11 @@
 'use strict';
 
 const DOG_API_URL = 'https://dog.ceo/api/breeds/image/random';
+const IMAGES_PER_BATCH = 4;
+const BATCH_COUNT = 5;
+const BATCH_FETCH_DELAY_MS = 1000;
+const BATCH_REMOVE_DELAY_MS = 10000;
+
 let correctAnswers = 0;
 let incorrectAnswers = 0;
 
