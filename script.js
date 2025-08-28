@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', init);
 
 function init() {
   shuffleLocalStorage();
-  addImageBatchImages();
+  buildImageBatchesWithDelay(BATCH_COUNT);
   const scoreButton = document.querySelector('button');
   scoreButton.addEventListener('click', displayChart);
 }
@@ -116,6 +116,16 @@ function createImage(src, imposter) {
   }
 
   return image;
+}
+
+function buildImageBatchesWithDelay(times) {
+  if (times === 0) return;
+
+  addImageBatchImages();
+
+  setTimeout(() => {
+    buildImageBatchesWithDelay(times - 1);
+  }, BATCH_FETCH_DELAY_MS);
 }
 
 function handleBatchClick(event) {
