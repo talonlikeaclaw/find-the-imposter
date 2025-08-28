@@ -1,5 +1,6 @@
 'use strict';
 
+const DOG_API_URL = 'https://dog.ceo/api/breeds/image/random';
 let correctAnswers = 0;
 let incorrectAnswers = 0;
 
