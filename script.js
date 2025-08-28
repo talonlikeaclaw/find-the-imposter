@@ -54,6 +54,10 @@ function addImageBatchImages() {
         const img = createImage(imageSrc, isImposter);
         imageBatch.appendChild(img);
       }
+
+      setTimeout(() => {
+        imageBatch.remove();
+      }, BATCH_REMOVE_DELAY_MS);
     })
     .catch(console.error);
 }
