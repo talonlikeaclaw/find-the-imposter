@@ -71,6 +71,32 @@ function fetchDogImageUrl() {
       return error;
     });
 }
+
+function fetchFourDogImageUrls() {
+  return new Promise((resolve, reject) => {
+    const urls = [];
+
+    return fetchDogImageUrl()
+      .then(img => {
+        urls.push(img);
+        return fetchDogImageUrl();
+      })
+      .then(img => {
+        urls.push(img);
+        return fetchDogImageUrl();
+      })
+      .then(img => {
+        urls.push(img);
+        return fetchDogImageUrl();
+      })
+      .then(img => {
+        urls.push(img);
+        resolve(urls);
+      })
+      .catch(error => reject(error));
+  });
+}
+
 function createImage(src, imposter) {
   const image = document.createElement('img');
   image.classList.add('batch-item');
