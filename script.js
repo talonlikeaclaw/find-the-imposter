@@ -56,8 +56,21 @@ function addImageBatchImages() {
       imageBatch.appendChild(secondDogImage);
       imageBatch.appendChild(thirdDogImage);
       imageBatch.appendChild(imposterBearImage);
+function fetchDogImageUrl() {
+  return fetch(DOG_API_URL)
+    .then(resp => {
+      if (!resp.ok) {
+        throw new Error('API error');
+      }
+      return resp.json();
     })
-    .catch(error => console.error(error));
+    .then(data => {
+      return data.message;
+    })
+    .catch(error => {
+      return error;
+    });
+}
 function createImage(src, imposter) {
   const image = document.createElement('img');
   image.classList.add('batch-item');
@@ -91,22 +104,6 @@ function handleBatchClick(event) {
       event.target.classList.remove('notClicked');
     }
   }
-}
-
-function fetchImageUrl(url) {
-  return fetch(url)
-    .then(resp => {
-      if (!resp.ok) {
-        throw new Error('API error');
-      }
-      return resp.json();
-    })
-    .then(data => {
-      return data.message;
-    })
-    .catch(error => {
-      return error;
-    });
 }
 
 function displayChart() {
