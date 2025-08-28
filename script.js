@@ -23,6 +23,13 @@ function init() {
   }, GAME_OVER_DELAY);
 }
 
+/**
+ * Creates a new image batch section.
+ * Adds random background colour, image-batch class, and click event listener.
+ * Appends image batch to image section.
+ *
+ * @returns {HTMLElement} The newly created image batch section element.
+ */
 function createImageBatch() {
   const imageSection = document.querySelector('#images');
   const imageBatch = document.createElement('section');
@@ -40,6 +47,10 @@ function createImageBatch() {
   return imageBatch;
 }
 
+/**
+ * Calls `createImageBatch`, populates image batch with dog/bear images
+ * and schedules its removal.
+ */
 function addImageBatchImages() {
   const imageBatch = createImageBatch();
 
@@ -67,6 +78,12 @@ function addImageBatchImages() {
     .catch(console.error);
 }
 
+/**
+ * Fetches a dog image URL from the dog image API.
+ *
+ * @returns {Promise<string>} A promise that resolves to the dog image URL.
+ * @throws Will throw an error if the API request fails.
+ */
 function fetchDogImageUrl() {
   return fetch(DOG_API_URL)
     .then(resp => {
@@ -83,6 +100,11 @@ function fetchDogImageUrl() {
     });
 }
 
+/**
+ * Fetches four dog image URLs in sequence.
+ *
+ * @returns {Promise<string[]>} Array of dog image URLs.
+ */
 function fetchFourDogImageUrls() {
   return new Promise((resolve, reject) => {
     const urls = [];
@@ -108,6 +130,13 @@ function fetchFourDogImageUrls() {
   });
 }
 
+/**
+ * Creates a new image tag with necessary classes.
+ *
+ * @param {string} src - The image src URL.
+ * @param {boolean} imposter - If the image contains an imposter.
+ * @returns {HTMLImageElement} Image element with classes.
+ */
 function createImage(src, imposter) {
   const image = document.createElement('img');
   image.classList.add('batch-item');
@@ -123,6 +152,12 @@ function createImage(src, imposter) {
   return image;
 }
 
+/**
+ * Builds image batches a specific amount of times with `BATCH_FETCH_DELAY_MS` delay between.
+ *
+ * @param {number} times- The amount of times to repeat image batch build.
+ * @returns {void} Returns early once repeated enough times.
+ */
 function buildImageBatchesWithDelay(times) {
   if (times === 0) return;
 
@@ -133,6 +168,14 @@ function buildImageBatchesWithDelay(times) {
   }, BATCH_FETCH_DELAY_MS);
 }
 
+/**
+ * Handles clicks on images within an image batch.
+ * - Highlights imposters in green border and increases score.
+ * - Fades incorrect guesses and increases mistake count.
+ * Removes `notClicked` class after the first interaction.
+ *
+ * @param {MouseEvent} event - The click event that was triggered.
+ */
 function handleBatchClick(event) {
   // Correctly guessed imposter
   if (event.target.classList.contains('imposter')) {
@@ -152,6 +195,10 @@ function handleBatchClick(event) {
   }
 }
 
+/**
+ * Ends the game by removing any existing image-batch elements.
+ * Displays a final score paragraph in image section element.
+ */
 function GameOver() {
   document
     .querySelectorAll('.image-batch')
