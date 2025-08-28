@@ -147,6 +147,17 @@ function handleBatchClick(event) {
   }
 }
 
+function GameOver() {
+  document
+    .querySelectorAll('.image-batch')
+    .forEach(batch => batch.remove());
+  const finalScoreParagraph = document.createElement('p');
+  finalScoreParagraph.textContent = `Game over! You found ${correctAnswers} imposters and
+  made ${incorrectAnswers} mistakes. Click on Score to see results.`;
+  finalScoreParagraph.style.textAlign = 'center';
+  document.querySelector('#images').appendChild(finalScoreParagraph);
+}
+
 function displayChart() {
   // this is a inline eslint setting to ignore the Chart global variable
   /* global Chart */
