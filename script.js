@@ -5,6 +5,7 @@ const IMAGES_PER_BATCH = 4;
 const BATCH_COUNT = 5;
 const BATCH_FETCH_DELAY_MS = 1000;
 const BATCH_REMOVE_DELAY_MS = 10000;
+const GAME_OVER_DELAY = BATCH_COUNT * BATCH_FETCH_DELAY_MS + BATCH_REMOVE_DELAY_MS;
 
 let correctAnswers = 0;
 let incorrectAnswers = 0;
@@ -16,6 +17,10 @@ function init() {
   buildImageBatchesWithDelay(BATCH_COUNT);
   const scoreButton = document.querySelector('button');
   scoreButton.addEventListener('click', displayChart);
+
+  setTimeout(() => {
+    GameOver();
+  }, GAME_OVER_DELAY);
 }
 
 function createImageBatch() {
