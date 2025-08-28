@@ -6,6 +6,7 @@ let incorrectAnswers = 0;
 document.addEventListener('DOMContentLoaded', init);
 
 function init() {
+  shuffleLocalStorage();
   addImageBatchImages();
   const scoreButton = document.querySelector('button');
   scoreButton.addEventListener('click', displayChart);
