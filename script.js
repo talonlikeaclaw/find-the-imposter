@@ -31,36 +31,27 @@ function createImageBatch() {
 
 function addImageBatchImages() {
   const imageBatch = createImageBatch();
-  fetchImageUrl('https://dog.ceo/api/breeds/image/random')
-    .then(imageUrl => {
-      const firstDogImage = document.createElement('img');
-      firstDogImage.src = imageUrl;
-      firstDogImage.classList.add('batch-item');
-      firstDogImage.classList.add('nonimposter');
-      firstDogImage.classList.add('notClicked');
 
-      const secondDogImage = document.createElement('img');
-      secondDogImage.src = 'assets/puppy-02.jpg';
-      secondDogImage.classList.add('batch-item');
-      secondDogImage.classList.add('nonimposter');
-      secondDogImage.classList.add('notClicked');
+  fetchFourDogImageUrls()
+    .then(dogImageUrls => {
+      // Pick random dog to replace by index
+      const replaceIndex = Math.floor(Math.random() * IMAGES_PER_BATCH);
 
-      const thirdDogImage = document.createElement('img');
-      thirdDogImage.src = 'assets/puppy-03.jpg';
-      thirdDogImage.classList.add('batch-item');
-      thirdDogImage.classList.add('nonimposter');
-      thirdDogImage.classList.add('notClicked');
+      // Found that we need to randomize the dimensions to get different imposters
+      const dimension = (Math.floor(Math.random() * 4) + 4) * 100;
+      const bearUrl = `https://placebear.com/${dimension}/${dimension}`;
 
-      const imposterBearImage = document.createElement('img');
-      imposterBearImage.src = 'assets/bear-01.jpg';
-      imposterBearImage.classList.add('batch-item');
-      imposterBearImage.classList.add('imposter');
-      imposterBearImage.classList.add('notClicked');
+      for (let i = 0; i < IMAGES_PER_BATCH; i++) {
+        // Place imposter url if index is same as replaceIndex
+        const isImposter = i === replaceIndex;
+        const imageSrc = isImposter ? bearUrl : dogImageUrls[i];
+        const img = createImage(imageSrc, isImposter);
+        imageBatch.appendChild(img);
+      }
+    })
+    .catch(console.error);
+}
 
-      imageBatch.appendChild(firstDogImage);
-      imageBatch.appendChild(secondDogImage);
-      imageBatch.appendChild(thirdDogImage);
-      imageBatch.appendChild(imposterBearImage);
 function fetchDogImageUrl() {
   return fetch(DOG_API_URL)
     .then(resp => {
