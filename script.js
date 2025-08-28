@@ -154,19 +154,23 @@ function createImage(src, imposter) {
 }
 
 /**
- * Builds image batches a specific amount of times with `BATCH_FETCH_DELAY_MS` delay between.
+ * Repeats a function a specific amount of times with specifed delay between.
+ * Cool and simple recursion technique, inspired by:
+ * https://stackoverflow.com/questions/35556876/javascript-repeat-a-function-x-amount-of-times
  *
- * @param {number} times- The amount of times to repeat image batch build.
- * @returns {void} Returns early once repeated enough times.
+ * @param {function} func - The function you want to repeat.
+ * @param {number} times - The amount of times to repeat `func`.
+ * @param {number} delay - Optional delay in milliseconds, defaults to 0.
+ * @returns {void} returns early when`times` equals 0.
  */
-function buildImageBatchesWithDelay(times) {
+function repeatFunctionWithDelay(func, times, delay = 0) {
   if (times === 0) return;
 
-  addImageBatchImages();
+  func();
 
   setTimeout(() => {
-    buildImageBatchesWithDelay(times - 1);
-  }, BATCH_FETCH_DELAY_MS);
+    repeatFunctionWithDelay(func, times - 1, BATCH_FETCH_DELAY_MS);
+  }, delay);
 }
 
 /**
