@@ -60,7 +60,8 @@ function addImageBatchImages() {
       const replaceIndex = Math.floor(Math.random() * IMAGES_PER_BATCH);
 
       // Found that we need to randomize the dimensions to get different imposters
-      const dimension = (Math.floor(Math.random() * 4) + 4) * 100;
+      // Generates potential dimensions [300, 400, 500, 600]
+      const dimension = (Math.floor(Math.random() * 4) + 3) * 100;
       const bearUrl = `https://placebear.com/${dimension}/${dimension}`;
 
       for (let i = 0; i < IMAGES_PER_BATCH; i++) {
