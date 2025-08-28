@@ -56,6 +56,19 @@ function addImageBatchImages() {
       imageBatch.appendChild(imposterBearImage);
     })
     .catch(error => console.error(error));
+function createImage(src, imposter) {
+  const image = document.createElement('img');
+  image.classList.add('batch-item');
+  image.classList.add('notClicked');
+  image.src = src;
+
+  if (imposter) {
+    image.classList.add('imposter');
+  } else {
+    image.classList.add('nonimposter');
+  }
+
+  return image;
 }
 
 function handleBatchClick(event) {
