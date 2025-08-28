@@ -7,6 +7,8 @@ document.addEventListener('DOMContentLoaded', init);
 
 function init() {
   addImageBatchImages();
+  const scoreButton = document.querySelector('button');
+  scoreButton.addEventListener('click', displayChart);
 }
 
 function createImageBatch() {
