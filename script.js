@@ -14,7 +14,11 @@ document.addEventListener('DOMContentLoaded', init);
 
 function init() {
   shuffleLocalStorage();
-  buildImageBatchesWithDelay(BATCH_COUNT);
+  repeatFunctionWithDelay(
+    addImageBatchImages,
+    BATCH_COUNT,
+    BATCH_FETCH_DELAY_MS
+  );
   const scoreButton = document.querySelector('button');
   scoreButton.addEventListener('click', displayChart);
 
