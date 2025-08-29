@@ -46,6 +46,7 @@ function createImageBatch() {
 
   imageBatch.classList.add('image-batch');
   imageBatch.addEventListener('click', handleBatchClick);
+  imageBatch.style.display = 'none';
 
   imageBatch.style.background = `rgb(${randRed} ${randGreen} ${randBlue} / 50%)`;
   imageSection.appendChild(imageBatch);
@@ -78,6 +79,7 @@ function addImageBatchImages() {
         imageBatch.appendChild(img);
       }
 
+      imageBatch.style.display = 'flex';
       setTimeout(() => {
         imageBatch.remove();
       }, BATCH_REMOVE_DELAY_MS);
