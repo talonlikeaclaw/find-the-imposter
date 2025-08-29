@@ -8,6 +8,7 @@ const BATCH_REMOVE_DELAY_MS = 10000;
 const GAME_OVER_DELAY =
   BATCH_COUNT * BATCH_FETCH_DELAY_MS + BATCH_REMOVE_DELAY_MS - 500;
 
+let storageIndex = 0;
 let correctAnswers = 0;
 let incorrectAnswers = 0;
 
@@ -101,6 +102,17 @@ function fetchDogImageUrl() {
     .then(data => {
       return data.message;
     });
+}
+
+/**
+ * Adds a designated item to `localStorage` with `storageIndex` as the key.
+ * Increments the `storageIndex` field after adding item.
+ *
+ * @param {string} item - the item to add to `localStorage`
+ */
+function addItemToLocalStorage(item) {
+  localStorage.setItem(storageIndex, item);
+  storageIndex++;
 }
 
 /**
