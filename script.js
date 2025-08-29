@@ -127,18 +127,22 @@ function fetchFourDogImageUrls() {
     return fetchDogImageUrl()
       .then(img => {
         urls.push(img);
+        addItemToLocalStorage(img);
         return fetchDogImageUrl();
       })
       .then(img => {
         urls.push(img);
+        addItemToLocalStorage(img);
         return fetchDogImageUrl();
       })
       .then(img => {
         urls.push(img);
+        addItemToLocalStorage(img);
         return fetchDogImageUrl();
       })
       .then(img => {
         urls.push(img);
+        addItemToLocalStorage(img);
         resolve(urls);
       })
       .catch(error => reject(error));
