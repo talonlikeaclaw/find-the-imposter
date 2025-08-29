@@ -16,6 +16,8 @@ document.addEventListener('DOMContentLoaded', init);
 
 function init() {
   shuffleLocalStorage();
+
+  storageIndex = getLocalStorageLength();
   repeatFunctionWithDelay(
     addImageBatchImages,
     BATCH_COUNT,
@@ -233,6 +235,19 @@ function GameOver() {
   made ${incorrectAnswers} mistakes. Click on Score to see results.`;
   finalScoreParagraph.style.textAlign = 'center';
   document.querySelector('#images').appendChild(finalScoreParagraph);
+}
+
+/**
+ * Checks the `localStorage` and determines the amount of items present.
+ * Borrowed from the `shuffleLocalStorage` function.
+ * @returns {number} The length of the keys in `localStorage`
+ */
+function getLocalStorageLength() {
+  const keys = Object.keys(localStorage)
+    .map(Number)
+    .filter(k => Number.isInteger(k) && k >= 0);
+  const len = keys.length;
+  return len;
 }
 
 function displayChart() {
