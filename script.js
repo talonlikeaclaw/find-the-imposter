@@ -100,9 +100,6 @@ function fetchDogImageUrl() {
     })
     .then(data => {
       return data.message;
-    })
-    .catch(error => {
-      return error;
     });
 }
 
