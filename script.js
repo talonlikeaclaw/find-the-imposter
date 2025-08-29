@@ -174,7 +174,7 @@ function repeatFunctionWithDelay(func, times, delay = 0) {
   func();
 
   setTimeout(() => {
-    repeatFunctionWithDelay(func, times - 1, BATCH_FETCH_DELAY_MS);
+    repeatFunctionWithDelay(func, times - 1, delay);
   }, delay);
 }
 
