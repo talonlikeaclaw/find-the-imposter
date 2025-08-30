@@ -9,6 +9,7 @@ const GAME_OVER_DELAY =
   BATCH_COUNT * BATCH_FETCH_DELAY_MS + BATCH_REMOVE_DELAY_MS - 500;
 
 let nextStorageIndex = 0;
+let cacheIndex = 0;
 let correctAnswers = 0;
 let incorrectAnswers = 0;
 
@@ -55,6 +56,46 @@ function createImageBatch() {
 
   return imageBatch;
 }
+
+/**
+ * Gets four images from `localStorage` using `cacheIndex` as the keys
+ * and schedules its removal.
+ */
+function addImageBatchFromCache() {
+  const imageBatch = createImageBatch();
+  const dogImageUrls = [];
+
+  for (let i = 0; i < IMAGES_PER_BATCH; i++) {
+    const url = localStorage.getItem(String(cacheIndex));
+    if (url) {
+      dogImageUrls.push(url);
+    }
+    cacheIndex++;
+  }
+  // Pick random dog to replace by index
+  const replaceIndex = Math.floor(Math.random() * IMAGES_PER_BATCH);
+
+  // Found that we need to randomize the dimensions to get different imposters
+  // Generates potential dimensions [300, 400, 500, 600]e
+  const dimension = (Math.floor(Math.random() * 4) + 3) * 100;
+  const bearUrl = `https://placebear.com/${dimension}/${dimension}`;
+
+  for (let j = 0; j < IMAGES_PER_BATCH; j++) {
+    // Place imposter url if index is same as replaceIndex
+    const isImposter = j === replaceIndex;
+    const imageSrc = isImposter ? bearUrl : dogImageUrls[j];
+    const img = createImage(imageSrc, isImposter);
+    imageBatch.appendChild(img);
+  }
+
+  imageBatch.style.display = 'flex';
+
+  setTimeout(() => {
+    imageBatch.remove();
+  }, BATCH_REMOVE_DELAY_MS);
+}
+
+// TODO: Generalize these two functions into one (DRY), split into helpers.
 
 /**
  * Calls `createImageBatch`, populates image batch with dog/bear images
