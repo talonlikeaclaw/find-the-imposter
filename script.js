@@ -8,7 +8,7 @@ const BATCH_REMOVE_DELAY_MS = 10000;
 const GAME_OVER_DELAY =
   BATCH_COUNT * BATCH_FETCH_DELAY_MS + BATCH_REMOVE_DELAY_MS - 500;
 
-let storageIndex = 0;
+let nextStorageIndex = 0;
 let correctAnswers = 0;
 let incorrectAnswers = 0;
 
@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', init);
 function init() {
   shuffleLocalStorage();
 
-  storageIndex = getLocalStorageLength();
+  nextStorageIndex = getLocalStorageLength();
   repeatFunctionWithDelay(
     addImageBatchImages,
     BATCH_COUNT,
@@ -109,14 +109,14 @@ function fetchDogImageUrl() {
 }
 
 /**
- * Adds a designated item to `localStorage` with `storageIndex` as the key.
- * Increments the `storageIndex` field after adding item.
+ * Adds a designated item to `localStorage` with `nextStorageIndex` as the key.
+ * Increments the `nextStorageIndex` field after adding item.
  *
  * @param {string} item - the item to add to `localStorage`
  */
 function addItemToLocalStorage(item) {
-  localStorage.setItem(storageIndex, item);
-  storageIndex++;
+  localStorage.setItem(nextStorageIndex, item);
+  nextStorageIndex++;
 }
 
 /**
