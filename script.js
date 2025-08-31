@@ -114,6 +114,36 @@ function fetchDogImageUrlsSequentially(count, collected = []) {
 }
 
 /**
+ * Fetches a dog image URL from the dog image API.
+ *
+ * @returns {Promise<string>} A promise that resolves to the dog image URL.
+ * @throws Will throw an error if the API request fails.
+ */
+function fetchDogImageUrl() {
+  return fetch(DOG_API_URL)
+    .then(resp => {
+      if (!resp.ok) {
+        throw new Error('API error');
+      }
+      return resp.json();
+    })
+    .then(data => {
+      return data.message;
+    });
+}
+
+/**
+ * Adds a designated item to `localStorage` with `nextStorageIndex` as the key.
+ * Increments the `nextStorageIndex` field after adding item.
+ *
+ * @param {string} item - the item to add to `localStorage`
+ */
+function addItemToLocalStorage(item) {
+  localStorage.setItem(nextStorageIndex, item);
+  nextStorageIndex++;
+}
+
+/**
  * Gets four dog image URLs, prioritizing cache first, then API fetching.
  *
  * @returns {Promise<Array<string>>} A promise that resolves to an array of four dog image URLs.
@@ -171,36 +201,6 @@ function addImageBatch() {
 }
 
 /**
- * Fetches a dog image URL from the dog image API.
- *
- * @returns {Promise<string>} A promise that resolves to the dog image URL.
- * @throws Will throw an error if the API request fails.
- */
-function fetchDogImageUrl() {
-  return fetch(DOG_API_URL)
-    .then(resp => {
-      if (!resp.ok) {
-        throw new Error('API error');
-      }
-      return resp.json();
-    })
-    .then(data => {
-      return data.message;
-    });
-}
-
-/**
- * Adds a designated item to `localStorage` with `nextStorageIndex` as the key.
- * Increments the `nextStorageIndex` field after adding item.
- *
- * @param {string} item - the item to add to `localStorage`
- */
-function addItemToLocalStorage(item) {
-  localStorage.setItem(nextStorageIndex, item);
-  nextStorageIndex++;
-}
-
-/**
  * Creates a new image tag with necessary classes.
  *
  * @param {string} src - The image src URL.
@@ -222,25 +222,6 @@ function createImage(src, imposter) {
   return image;
 }
 
-/**
- * Repeats a function a specific amount of times with specifed delay between.
- * Cool and simple recursion technique, inspired by:
- * https://stackoverflow.com/questions/35556876/javascript-repeat-a-function-x-amount-of-times
- *
- * @param {function} func - The function you want to repeat.
- * @param {number} times - The amount of times to repeat `func`.
- * @param {number} delay - Optional delay in milliseconds, defaults to 0.
- * @returns {void} returns early when`times` equals 0.
- */
-function repeatFunctionWithDelay(func, times, delay = 0) {
-  if (times === 0) return;
-
-  func();
-
-  setTimeout(() => {
-    repeatFunctionWithDelay(func, times - 1, delay);
-  }, delay);
-}
 // --- Game Utiliy ------------------------------------------------------------
 
 /**
@@ -286,6 +267,26 @@ function GameOver() {
 }
 
 // --- Ulitily Functions ------------------------------------------------------
+
+/**
+ * Repeats a function a specific amount of times with specifed delay between.
+ * Cool and simple recursion technique, inspired by:
+ * https://stackoverflow.com/questions/35556876/javascript-repeat-a-function-x-amount-of-times
+ *
+ * @param {function} func - The function you want to repeat.
+ * @param {number} times - The amount of times to repeat `func`.
+ * @param {number} delay - Optional delay in milliseconds, defaults to 0.
+ * @returns {void} returns early when`times` equals 0.
+ */
+function repeatFunctionWithDelay(func, times, delay = 0) {
+  if (times === 0) return;
+
+  func();
+
+  setTimeout(() => {
+    repeatFunctionWithDelay(func, times - 1, delay);
+  }, delay);
+}
 
 /**
  * Checks the `localStorage` and determines the amount of items present.
