@@ -16,9 +16,11 @@ let incorrectAnswers = 0;
 document.addEventListener('DOMContentLoaded', init);
 
 function init() {
-  shuffleLocalStorage();
-
   nextStorageIndex = getLocalStorageLength();
+
+  if (nextStorageIndex > 1) {
+    shuffleLocalStorage();
+  }
   repeatFunctionWithDelay(
     addImageBatchImages,
     BATCH_COUNT,
