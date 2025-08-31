@@ -1,3 +1,8 @@
+/**
+ * Find The Imposter Game
+ * Author: Talon Dunbar
+ */
+
 'use strict';
 
 // --- Global Constants -------------------------------------------------------
