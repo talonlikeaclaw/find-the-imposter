@@ -176,11 +176,7 @@ function addImageBatch() {
     .then(dogImageUrls => {
       // Pick random dog to replace by index
       const replaceIndex = Math.floor(Math.random() * IMAGES_PER_BATCH);
-
-      // Found that we need to randomize the dimensions to get different imposters
-      // Generates potential dimensions [300, 400, 500, 600]
-      const dimension = (Math.floor(Math.random() * 4) + 3) * 100;
-      const bearUrl = `https://placebear.com/${dimension}/${dimension}`;
+      const bearUrl = getRandomBearUrl();
 
       for (let i = 0; i < IMAGES_PER_BATCH; i++) {
         // Place imposter url if index is same as replaceIndex
@@ -197,6 +193,18 @@ function addImageBatch() {
       }, BATCH_REMOVE_DELAY_MS);
     })
     .catch(error => showError(error));
+}
+
+/**
+ * Gets a bear image url with random dimesion.
+ * Dimesions can be 300, 400, 500, or 600.
+ *
+ * @returns {string} the bear image url.
+ */
+function getRandomBearUrl() {
+  // Found that we need to randomize the dimensions to get different imposters
+  const dimension = (Math.floor(Math.random() * 4) + 3) * 100;
+  return `https://placebear.com/${dimension}/${dimension}`;
 }
 
 /**
