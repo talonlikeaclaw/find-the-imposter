@@ -196,8 +196,17 @@ function addImageBatch() {
         imageBatch.remove();
       }, BATCH_REMOVE_DELAY_MS);
     })
-    .catch(console.error);
-  // TODO: hook up to error section
+    .catch(error => showError(error));
+}
+
+/**
+ * Shows an error message in the Error display paragraph.
+ *
+ * @param {string} msg - The error message to add.
+ */
+function showError(msg) {
+  const errorSection = document.querySelector('.error');
+  errorSection.textContent = msg;
 }
 
 /**
