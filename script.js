@@ -21,11 +21,13 @@ function init() {
   if (nextStorageIndex > 1) {
     shuffleLocalStorage();
   }
+
   repeatFunctionWithDelay(
-    addImageBatchImages,
+    addImageBatch,
     BATCH_COUNT,
     BATCH_FETCH_DELAY_MS
   );
+
   const scoreButton = document.querySelector('button');
   scoreButton.addEventListener('click', displayChart);
 
@@ -60,53 +62,77 @@ function createImageBatch() {
 }
 
 /**
- * Gets four images from `localStorage` using `cacheIndex` as the keys
- * and schedules its removal.
+ * Fetches URLs from the `localStorage` cache.
+ *
+ * @param {number} limit - the amount of image URLs to fetch from cache.
+ * @returns {Array<string>} an array of up to 4 image urls from cache.
  */
-function addImageBatchFromCache() {
-  const imageBatch = createImageBatch();
-  const dogImageUrls = [];
-
-  for (let i = 0; i < IMAGES_PER_BATCH; i++) {
+function getDogImageUrlsFromCache(limit) {
+  const cachedUrls = [];
+  for (let i = 0; i < limit; i++) {
     const url = localStorage.getItem(String(cacheIndex));
-    if (url) {
-      dogImageUrls.push(url);
+    if (!url) {
+      break;
     }
+    cachedUrls.push(url);
     cacheIndex++;
   }
-  // Pick random dog to replace by index
-  const replaceIndex = Math.floor(Math.random() * IMAGES_PER_BATCH);
-
-  // Found that we need to randomize the dimensions to get different imposters
-  // Generates potential dimensions [300, 400, 500, 600]e
-  const dimension = (Math.floor(Math.random() * 4) + 3) * 100;
-  const bearUrl = `https://placebear.com/${dimension}/${dimension}`;
-
-  for (let j = 0; j < IMAGES_PER_BATCH; j++) {
-    // Place imposter url if index is same as replaceIndex
-    const isImposter = j === replaceIndex;
-    const imageSrc = isImposter ? bearUrl : dogImageUrls[j];
-    const img = createImage(imageSrc, isImposter);
-    imageBatch.appendChild(img);
-  }
-
-  imageBatch.style.display = 'flex';
-
-  setTimeout(() => {
-    imageBatch.remove();
-  }, BATCH_REMOVE_DELAY_MS);
+  return cachedUrls;
 }
 
-// TODO: Generalize these two functions into one (DRY), split into helpers.
+/**
+ * Fetches image urls from API up to `count` times.
+ * Stores URLs in local storage when promise resolves.
+ * Recursively calls itself with `count - 1` after inner promise resolves.
+ *
+ * @param {number} count - The amount of images to fetch sequentially.
+ * @param {Array<string>} collected - The urls collecteds, defaults to empty array.
+ * @returns {Promise<Array<string>>} A promise that resolves to an array of image URLs.
+ */
+function fetchDogImageUrlsSequentially(count, collected = []) {
+  if (count === 0) {
+    return new Promise(resolve => {
+      resolve(collected);
+    });
+  }
+
+  return fetchDogImageUrl().then(url => {
+    collected.push(url);
+    addItemToLocalStorage(url);
+    return fetchDogImageUrlsSequentially(count - 1, collected);
+  });
+}
 
 /**
- * Calls `createImageBatch`, populates image batch with dog/bear images
- * and schedules its removal.
+ * Gets four dog image URLs, prioritizing cache first, then API fetching.
+ *
+ * @returns {Promise<Arras<string>>} A promise that resolves to an array of four dog image URLs.
  */
-function addImageBatchImages() {
+function getDogImageUrlsPreferringCache() {
+  const cached = getDogImageUrlsFromCache(IMAGES_PER_BATCH);
+  const missingCount = IMAGES_PER_BATCH - cached.length;
+
+  if (missingCount === 0) {
+    return new Promise(resolve => {
+      resolve(cached);
+    });
+  }
+
+  return fetchDogImageUrlsSequentially(missingCount).then(fetched => {
+    return cached.concat(fetched);
+  });
+}
+
+/**
+ * Creates an image batch and adds 3 dog images and an imposter bear image.
+ * - Gets four dog images from cache or API.
+ * - Chooses one dog image to replace with a random imposter bear image.
+ * - Sets timer to automatically remove self after `BATCH_REMOVE_DELAY_MS`.
+ */
+function addImageBatch() {
   const imageBatch = createImageBatch();
 
-  fetchFourDogImageUrls()
+  getDogImageUrlsPreferringCache()
     .then(dogImageUrls => {
       // Pick random dog to replace by index
       const replaceIndex = Math.floor(Math.random() * IMAGES_PER_BATCH);
@@ -125,11 +151,13 @@ function addImageBatchImages() {
       }
 
       imageBatch.style.display = 'flex';
+
       setTimeout(() => {
         imageBatch.remove();
       }, BATCH_REMOVE_DELAY_MS);
     })
     .catch(console.error);
+  // TODO: hook up to error section
 }
 
 /**
