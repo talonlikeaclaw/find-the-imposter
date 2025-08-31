@@ -300,6 +300,9 @@ function getLocalStorageLength() {
   return len;
 }
 
+/**
+ * Displays a JS Chart modal.
+ */
 function displayChart() {
   // this is a inline eslint setting to ignore the Chart global variable
   /* global Chart */
@@ -339,7 +342,9 @@ function displayChart() {
   });
 }
 
-// Hint: what is this function assuming about your localStorage keys?
+/**
+ * Shuffles the integer keys for the Image URLS in `localStorage`
+ */ 
 function shuffleLocalStorage(maxSwaps = 20) {
   // Get all integer keys
   const keys = Object.keys(localStorage)
