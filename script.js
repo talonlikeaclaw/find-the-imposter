@@ -191,40 +191,6 @@ function addItemToLocalStorage(item) {
 }
 
 /**
- * Fetches four dog image URLs in sequence.
- *
- * @returns {Promise<string[]>} Array of dog image URLs.
- */
-function fetchFourDogImageUrls() {
-  return new Promise((resolve, reject) => {
-    const urls = [];
-
-    return fetchDogImageUrl()
-      .then(img => {
-        urls.push(img);
-        addItemToLocalStorage(img);
-        return fetchDogImageUrl();
-      })
-      .then(img => {
-        urls.push(img);
-        addItemToLocalStorage(img);
-        return fetchDogImageUrl();
-      })
-      .then(img => {
-        urls.push(img);
-        addItemToLocalStorage(img);
-        return fetchDogImageUrl();
-      })
-      .then(img => {
-        urls.push(img);
-        addItemToLocalStorage(img);
-        resolve(urls);
-      })
-      .catch(error => reject(error));
-  });
-}
-
-/**
  * Creates a new image tag with necessary classes.
  *
  * @param {string} src - The image src URL.
