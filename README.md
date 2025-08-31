@@ -5,7 +5,7 @@ Author: Talon Dunbar
 
 ## Overview
 
-A silly interactive game where the user must find the imposters amongst groups of images before the timer runs out. When the user selects images they are given feedback indicating if they correctly found the imposter or not. The user's score is tallied dynamically and is displayed in a bar chart for the user to view during/after the game.
+A silly interactive game where the user must find the imposters amongst groups of images before the timer runs out. When the user selects images they are given feedback indicating if they correctly found the imposter or not. The user's score is tallied dynamically and is displayed in a Chart.js bar chart for the user to view during/after the game.
 
 ### Example Gameplay
 
@@ -20,11 +20,12 @@ A silly interactive game where the user must find the imposters amongst groups o
 
 #### Image Management
 
-- Images are either fetched from Local Storage or a public image API.
-- On initialization, Local Storage keys are randomized if images exist.
-- If Local Storage is empty or insufficient, fetch 20 images in batches of 4.
-    - Batches are fetched with delays between requests to reduce server load.
-    - Images are stored in Local Storage using numbered keys.
+- Images are either fetched from `localStorage` or a public image API.
+- On page load, `localStorage` keys are randomized if images exist.
+- If `localStorage` is empty or insufficient:
+    - Fetch supplementary images from API.
+    - Use delays between fetches requests to reduce server load.
+    - Store each fetched image URL in `localStorage` using a numeric key (`0`, `1`, ...).
 - Batches are stacked vertically, each with a random background color and containing 4 images.
 - One image per batch is randomly replaced with an imposter image.
 
@@ -68,9 +69,16 @@ A silly interactive game where the user must find the imposters amongst groups o
     2. Right click on `index.html` and click "Open With Live Server".
     3. Access the game at `http://127.0.0.1:5500/index.html` by default.
 
-What if they want to check code style at the command-line?
+If you'd like to check code quality or run linting from the command-line run: `npm run lint`.
 
 ## Credits
 
-Cite external sources and what they helped you with. 
-(Please add comments above any code that was heavily inspired by external sources.)
+### Resources
+
+- [Recursive Function Repeat (Stack Overflow)](https://stackoverflow.com/questions/35556876/javascript-repeat-a-function-x-amount-of-times)
+
+### Tools
+
+- [DOG CEO API](https://dog.ceo/dog-api/)
+- [PlaceBear](https://placebear.com/)
+- [ChartJS](https://www.chartjs.org/)
