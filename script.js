@@ -40,7 +40,7 @@ function init() {
   scoreButton.addEventListener('click', displayChart);
 
   setTimeout(() => {
-    GameOver();
+    showGameOverDisplay();
   }, GAME_OVER_DELAY);
 }
 
@@ -255,7 +255,7 @@ function handleBatchClick(event) {
  * Ends the game by removing any existing image-batch elements.
  * Displays a final score paragraph in image section element.
  */
-function GameOver() {
+function showGameOverDisplay() {
   document
     .querySelectorAll('.image-batch')
     .forEach(batch => batch.remove());
