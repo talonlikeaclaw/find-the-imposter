@@ -1,5 +1,7 @@
 'use strict';
 
+// --- Global Constants -------------------------------------------------------
+
 const DOG_API_URL = 'https://dog.ceo/api/breeds/image/random';
 const IMAGES_PER_BATCH = 4;
 const BATCH_COUNT = 5;
@@ -8,12 +10,18 @@ const BATCH_REMOVE_DELAY_MS = 10000;
 const GAME_OVER_DELAY =
   BATCH_COUNT * BATCH_FETCH_DELAY_MS + BATCH_REMOVE_DELAY_MS - 500;
 
+// --- Game State -------------------------------------------------------------
+
 let nextStorageIndex = 0;
 let cacheIndex = 0;
 let correctAnswers = 0;
 let incorrectAnswers = 0;
 
+// --- DOM Content Initialization ---------------------------------------------
+
 document.addEventListener('DOMContentLoaded', init);
+
+// --- Game Flow Logic --------------------------------------------------------
 
 function init() {
   nextStorageIndex = getLocalStorageLength();
@@ -35,6 +43,8 @@ function init() {
     GameOver();
   }, GAME_OVER_DELAY);
 }
+
+// --- Image Batch Logic ------------------------------------------------------
 
 /**
  * Creates a new image batch section.
@@ -106,7 +116,7 @@ function fetchDogImageUrlsSequentially(count, collected = []) {
 /**
  * Gets four dog image URLs, prioritizing cache first, then API fetching.
  *
- * @returns {Promise<Arras<string>>} A promise that resolves to an array of four dog image URLs.
+ * @returns {Promise<Array<string>>} A promise that resolves to an array of four dog image URLs.
  */
 function getDogImageUrlsPreferringCache() {
   const cached = getDogImageUrlsFromCache(IMAGES_PER_BATCH);
@@ -231,6 +241,7 @@ function repeatFunctionWithDelay(func, times, delay = 0) {
     repeatFunctionWithDelay(func, times - 1, delay);
   }, delay);
 }
+// --- Game Utiliy ------------------------------------------------------------
 
 /**
  * Handles clicks on images within an image batch.
@@ -273,6 +284,8 @@ function GameOver() {
   finalScoreParagraph.style.textAlign = 'center';
   document.querySelector('#images').appendChild(finalScoreParagraph);
 }
+
+// --- Ulitily Functions ------------------------------------------------------
 
 /**
  * Checks the `localStorage` and determines the amount of items present.
