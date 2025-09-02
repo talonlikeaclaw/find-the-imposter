@@ -61,7 +61,7 @@ function init() {
 function createImageBatch() {
   const imageSection = document.querySelector('#images');
   const imageBatch = document.createElement('section');
-  // Random hue between 100-256
+  // Random hue between 100-255
   const randRed = Math.floor(Math.random() * 156) + 100;
   const randGreen = Math.floor(Math.random() * 156) + 100;
   const randBlue = Math.floor(Math.random() * 156) + 100;
