@@ -52,6 +52,38 @@ function init() {
 // --- Image Batch Logic ------------------------------------------------------
 
 /**
+ * Creates an image batch and adds 3 dog images and an imposter bear image.
+ * - Gets four dog images from cache or API.
+ * - Chooses one dog image to replace with a random imposter bear image.
+ * - Sets timer to automatically remove self after `BATCH_REMOVE_DELAY_MS`.
+ */
+function addImageBatch() {
+  const imageBatch = createImageBatch();
+
+  getDogImageUrlsPreferringCache()
+    .then(dogImageUrls => {
+      // Pick random dog to replace by index
+      const replaceIndex = Math.floor(Math.random() * IMAGES_PER_BATCH);
+      const bearUrl = getRandomBearUrl();
+
+      for (let i = 0; i < IMAGES_PER_BATCH; i++) {
+        // Place imposter url if index is same as replaceIndex
+        const isImposter = i === replaceIndex;
+        const imageSrc = isImposter ? bearUrl : dogImageUrls[i];
+        const img = createImage(imageSrc, isImposter);
+        imageBatch.appendChild(img);
+      }
+
+      imageBatch.style.display = 'flex';
+
+      setTimeout(() => {
+        imageBatch.remove();
+      }, BATCH_REMOVE_DELAY_MS);
+    })
+    .catch(error => showError(error));
+}
+
+/**
  * Creates a new image batch section.
  * Adds random background colour, image-batch class, and click event listener.
  * Appends image batch to image section.
@@ -74,6 +106,26 @@ function createImageBatch() {
   imageSection.appendChild(imageBatch);
 
   return imageBatch;
+}
+
+/**
+ * Gets four dog image URLs, prioritizing cache first, then API fetching.
+ *
+ * @returns {Promise<Array<string>>} A promise that resolves to an array of four dog image URLs.
+ */
+function getDogImageUrlsPreferringCache() {
+  const cached = getDogImageUrlsFromCache(IMAGES_PER_BATCH);
+  const missingCount = IMAGES_PER_BATCH - cached.length;
+
+  if (missingCount === 0) {
+    return new Promise(resolve => {
+      resolve(cached);
+    });
+  }
+
+  return fetchDogImageUrlsSequentially(missingCount).then(fetched => {
+    return cached.concat(fetched);
+  });
 }
 
 /**
@@ -149,58 +201,6 @@ function addItemToLocalStorage(item) {
 }
 
 /**
- * Gets four dog image URLs, prioritizing cache first, then API fetching.
- *
- * @returns {Promise<Array<string>>} A promise that resolves to an array of four dog image URLs.
- */
-function getDogImageUrlsPreferringCache() {
-  const cached = getDogImageUrlsFromCache(IMAGES_PER_BATCH);
-  const missingCount = IMAGES_PER_BATCH - cached.length;
-
-  if (missingCount === 0) {
-    return new Promise(resolve => {
-      resolve(cached);
-    });
-  }
-
-  return fetchDogImageUrlsSequentially(missingCount).then(fetched => {
-    return cached.concat(fetched);
-  });
-}
-
-/**
- * Creates an image batch and adds 3 dog images and an imposter bear image.
- * - Gets four dog images from cache or API.
- * - Chooses one dog image to replace with a random imposter bear image.
- * - Sets timer to automatically remove self after `BATCH_REMOVE_DELAY_MS`.
- */
-function addImageBatch() {
-  const imageBatch = createImageBatch();
-
-  getDogImageUrlsPreferringCache()
-    .then(dogImageUrls => {
-      // Pick random dog to replace by index
-      const replaceIndex = Math.floor(Math.random() * IMAGES_PER_BATCH);
-      const bearUrl = getRandomBearUrl();
-
-      for (let i = 0; i < IMAGES_PER_BATCH; i++) {
-        // Place imposter url if index is same as replaceIndex
-        const isImposter = i === replaceIndex;
-        const imageSrc = isImposter ? bearUrl : dogImageUrls[i];
-        const img = createImage(imageSrc, isImposter);
-        imageBatch.appendChild(img);
-      }
-
-      imageBatch.style.display = 'flex';
-
-      setTimeout(() => {
-        imageBatch.remove();
-      }, BATCH_REMOVE_DELAY_MS);
-    })
-    .catch(error => showError(error));
-}
-
-/**
  * Gets a bear image url with random dimesion.
  * Dimesions can be 300, 400, 500, or 600.
  *
@@ -210,16 +210,6 @@ function getRandomBearUrl() {
   // Found that we need to randomize the dimensions to get different imposters
   const dimension = (Math.floor(Math.random() * 4) + 3) * 100;
   return `https://placebear.com/${dimension}/${dimension}`;
-}
-
-/**
- * Shows an error message in the Error display paragraph.
- *
- * @param {string} msg - The error message to add.
- */
-function showError(msg) {
-  const errorSection = document.querySelector('.error');
-  errorSection.textContent = msg;
 }
 
 /**
@@ -242,6 +232,16 @@ function createImage(src, imposter) {
   }
 
   return image;
+}
+
+/**
+ * Shows an error message in the Error display paragraph.
+ *
+ * @param {string} msg - The error message to add.
+ */
+function showError(msg) {
+  const errorSection = document.querySelector('.error');
+  errorSection.textContent = msg;
 }
 
 // --- Game Utiliy ------------------------------------------------------------
