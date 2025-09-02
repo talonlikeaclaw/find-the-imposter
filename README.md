@@ -10,6 +10,7 @@ A silly interactive game where the user must find the imposters amongst groups o
 ### Example Gameplay
 
 ![Example Gameplay](assets/example-01.png)
+![Example Chart](assets/example-02.png)
 
 ### Stakeholder Requirements
 
