@@ -35,14 +35,14 @@ function init() {
     shuffleLocalStorage();
   }
 
+  const scoreButton = document.querySelector('button');
+  scoreButton.addEventListener('click', displayChart);
+
   repeatFunctionWithDelay(
     addImageBatch,
     BATCH_COUNT,
     BATCH_FETCH_DELAY_MS
   );
-
-  const scoreButton = document.querySelector('button');
-  scoreButton.addEventListener('click', displayChart);
 
   setTimeout(() => {
     showGameOverDisplay();
