@@ -40,7 +40,9 @@ A silly interactive game where the user must find the imposters amongst groups o
 
 #### Timing and Batch Handling
 
-- Each batch of 4 images has a timer that automatically removes the batch after a specified delay.
+- Use delays between image fetch requests.
+- Use delays between displaying image batches.
+- Use delays for each image batch that automatically removes the batch after the specified delay.
 - Timer delays are stored as constants for easy configuration.
 
 #### Scoring and Feedback
