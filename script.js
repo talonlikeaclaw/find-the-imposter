@@ -10,6 +10,7 @@
 const DOG_API_URL = 'https://dog.ceo/api/breeds/image/random';
 const IMAGES_PER_BATCH = 4;
 const BATCH_COUNT = 5;
+const PER_IMAGE_DELAY_MS = 100;
 const BATCH_FETCH_DELAY_MS = 2000;
 const BATCH_REMOVE_DELAY_MS = 15000;
 const GAME_OVER_DELAY =
@@ -150,6 +151,7 @@ function getDogImageUrlsFromCache(limit) {
 /**
  * Fetches image urls from API up to `count` times.
  * Stores URLs in local storage when promise resolves.
+ * Adds `PER_IMAGE_DELAY_MS` between image fetch requests.
  * Recursively calls itself with `count - 1` after inner promise resolves.
  *
  * @param {number} count - The amount of images to fetch sequentially.
@@ -163,11 +165,13 @@ function fetchDogImageUrlsSequentially(count, collected = []) {
     });
   }
 
-  return fetchDogImageUrl().then(url => {
-    collected.push(url);
-    addItemToLocalStorage(url);
-    return fetchDogImageUrlsSequentially(count - 1, collected);
-  });
+  return fetchDogImageUrl()
+    .then(url => {
+      collected.push(url);
+      addItemToLocalStorage(url);
+    })
+    .then(() => delay(PER_IMAGE_DELAY_MS))
+    .then(() => fetchDogImageUrlsSequentially(count - 1, collected));
 }
 
 /**
@@ -321,6 +325,16 @@ function getLocalStorageLength() {
     .filter(k => Number.isInteger(k) && k >= 0);
   const len = keys.length;
   return len;
+}
+
+/**
+ * Delay execution for a given amount of time.
+ *
+ * @param {number} ms - The amount of ms ti set the timeout for.
+ * @returns {Promise<void>} A Promise that resolves after the timeout finishes.
+ */
+function delay(ms) {
+  return new Promise(res => setTimeout(res, ms));
 }
 
 /**
