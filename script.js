@@ -13,13 +13,12 @@ const BATCH_COUNT = 5;
 const PER_IMAGE_DELAY_MS = 100;
 const BATCH_FETCH_DELAY_MS = 2000;
 const BATCH_REMOVE_DELAY_MS = 15000;
-const GAME_OVER_DELAY =
-  BATCH_COUNT * BATCH_FETCH_DELAY_MS + BATCH_REMOVE_DELAY_MS - 2500;
 
 // --- Game State -------------------------------------------------------------
 
 let nextStorageIndex = 0;
 let cacheIndex = 0;
+let batchesCreated = 0;
 let correctAnswers = 0;
 let incorrectAnswers = 0;
 
@@ -44,10 +43,6 @@ function init() {
     BATCH_COUNT,
     BATCH_FETCH_DELAY_MS
   );
-
-  setTimeout(() => {
-    showGameOverDisplay();
-  }, GAME_OVER_DELAY);
 }
 
 // --- Image Batch Logic ------------------------------------------------------
@@ -60,6 +55,7 @@ function init() {
  */
 function addImageBatch() {
   const imageBatch = createImageBatch();
+  batchesCreated++;
 
   getDogImageUrlsPreferringCache()
     .then(dogImageUrls => {
@@ -79,6 +75,13 @@ function addImageBatch() {
 
       setTimeout(() => {
         imageBatch.remove();
+
+        if (
+          batchesCreated === BATCH_COUNT &&
+          document.querySelectorAll('.image-batch').length === 0
+        ) {
+          showGameOverDisplay();
+        }
       }, BATCH_REMOVE_DELAY_MS);
     })
     .catch(error => showError(error));
